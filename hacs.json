@@ -1,0 +1,5 @@
+{
+  "name": "A Lovelace card for Gtasks custom component",
+  "render_readme": true,
+  "homeassistant": "0.100.0"
+}
