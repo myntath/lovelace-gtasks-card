@@ -84,7 +84,8 @@ customElements.whenDefined('card-tools').then(() => {
     }    
     _track(task_name){
       this._hass.callService("gtasks", "complete_task", {
-        task_title: task_name
+        task_title: task_name,
+        tasks_list: this.header
       });
     }
 
@@ -127,7 +128,8 @@ customElements.whenDefined('card-tools').then(() => {
       this._hass = hass;
       
       const entity = hass.states[this.config.entity];
-      this.header = this.config.title == null ? "Tasks" : this.config.title;
+      const list_title = entity.attributes.friendly_name.split('_')[1]
+      this.header = this.config.title == null ? list_title : this.config.title;
 
       this.show_quantity = this.config.show_quantity == null ? null : this.config.show_quantity;
       this.show_days = this.config.show_days == null ? null : this.config.show_days;
