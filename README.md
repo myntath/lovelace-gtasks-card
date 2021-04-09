@@ -33,7 +33,7 @@ views:
 
 | Name | Type | Default | Description
 | ---- | ---- | ------- | -----------
-| type | string | **Required** | `custom:grocy-chores-card`
+| type | string | **Required** | `custom:gtasks-card`
 | entity | string | **Required** | The entity id of your Grocy chores sensor.
 | show_quantity | number | **Optional** | The number of chores you want to show in the card.
 | show_days | number | **Optional** | `7` to only show chores that's due within 7 days.
