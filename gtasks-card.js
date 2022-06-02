@@ -85,7 +85,7 @@ customElements.whenDefined('card-tools').then(() => {
     _track(task_name){
       this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
-        task_list: this.list_name
+        list_title: this.list_name
       });
     }
 
