@@ -70,7 +70,7 @@ customElements.whenDefined('card-tools').then(() => {
                     </div>
                   </div>
                   <div>
-                    <mwc-button @click=${ev => this._track(task.task_title)}>${this.config.custom_translation != null && this.config.custom_translation.track != null ? this.config.custom_translation.track : "Track"}</mwc-button>
+                    <mwc-button @click=${ev => this._track(task.task_title)}>${this.config.custom_translation != null && this.config.custom_translation.track != null ? this.config.custom_translation.track : "Complete"}</mwc-button>
                   </div>
                 </div>
 
@@ -85,7 +85,7 @@ customElements.whenDefined('card-tools').then(() => {
     _track(task_name){
       this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
-        tasks_list: this.list_name
+        task_list: this.list_name
       });
     }
 
