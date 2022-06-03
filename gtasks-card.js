@@ -101,7 +101,7 @@ customElements.whenDefined('card-tools').then(() => {
     }
 
     _new_task(){
-      var new_task_name = doument.getElementsById('new_task_text_box').value
+      var new_task_name = document.getElementById('new_task_text_box').value
       this._hass.callService("gtasks", "new_task", {
         task_title: new_task_name
       });
