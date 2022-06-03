@@ -98,7 +98,7 @@ customElements.whenDefined('card-tools').then(() => {
         task_title: task_name,
         list_title: this.list_name
       });
-      _update_list();
+      this._hass.callService("gtasks", "refresh");
     }
 
     _new_task(new_task_name){
@@ -107,14 +107,9 @@ customElements.whenDefined('card-tools').then(() => {
         task_title: new_task_name
       });
       this.shadowRoot.querySelector("#new_task_input").value = "";
-      _update_list();
+      this._hass.callService("gtasks", "refresh"); 
     }
-    
-    _update_list(){
-      //@TODO Make a function to update the list.
-      this._hass.callService("gtasks", "refresh");
-    }
-    
+      
     _renderStyle() {
         return cardTools.LitHtml
         `
