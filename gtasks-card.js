@@ -40,9 +40,9 @@ customElements.whenDefined('card-tools').then(() => {
 
     formatDueDate(dueDate, dueInDays) {
       if (dueInDays < 0)
-        return this.config.custom_translation != null && this.config.custom_translation.overdue != null ? this.config.custom_translation.overdue : "Overdue";
+        return "Overdue";
       else if (dueInDays == 0)
-        return this.config.custom_translation != null && this.config.custom_translation.today != null ? this.config.custom_translation.today : "Today";
+        return "Today";
       else
         return dueDate.substr(0, 10);
     }
@@ -66,23 +66,23 @@ customElements.whenDefined('card-tools').then(() => {
                   <div>
                     ${task.task_title}
                     <div class="secondary">
-                    ${this.config.custom_translation != null && this.config.custom_translation.due != null ? this.config.custom_translation.due : "Due"}: <span class="${task.due_date != null ? this.checkDueClass(task.dueInDays) : ""}">${task.due_date != null ? this.formatDueDate(task.due_date, task.dueInDays) : "-"}</span>
+                    Due: <span class="${task.due_date != null ? this.checkDueClass(task.dueInDays) : ""}">${task.due_date != null ? this.formatDueDate(task.due_date, task.dueInDays) : "-"}</span>
                     </div>
                   </div>
                   <div>
-                    <mwc-button @click=${ev => this._track(task.task_title)}>${this.config.custom_translation != null && this.config.custom_translation.track != null ? this.config.custom_translation.track : "Complete"}</mwc-button>
+                    <mwc-button @click=${ev => this._complete(task.task_title)}>✓</mwc-button>
                   </div>
                 </div>
 
                 `
-              )}` : cardTools.LitHtml`<div class="info flex">${this.config.custom_translation != null && this.config.custom_translation.empty != null ? this.config.custom_translation.empty : "No tasks!"}</div>`}
+              )}` : cardTools.LitHtml`<div class="info flex">No tasks!</div>`}
             </div>
-            ${this.notShowing.length > 0 ? cardTools.LitHtml`<div class="secondary">${this.config.custom_translation != null && this.config.custom_translation.more != null ? this.config.custom_translation.more.replace("{number}", this.notShowing.length) : "Look in Grocy for " + this.notShowing.length + " more tasks..."}</div>`
+            ${this.notShowing.length > 0 ? cardTools.LitHtml`<div class="secondary">${"Look in Google Tasks for " + this.notShowing.length + " more tasks..."}</div>`
             : ""}
           </ha-card>`}
       `;
     }    
-    _track(task_name){
+    _complete(task_name){
       this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
         list_title: this.list_name
