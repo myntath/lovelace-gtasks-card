@@ -81,7 +81,7 @@ customElements.whenDefined('card-tools').then(() => {
             : ""}
           <div class="info flex">
             <div>
-              <paper-input label="new_task" id="new_task_input" type="text">New Task</paper-input>
+              <paper-input label="new_task" id="new_task_input" type="text" on-input="_textInput">New Task</paper-input>
               <div class="secondary">
               Add new task
               </div>
@@ -92,7 +92,13 @@ customElements.whenDefined('card-tools').then(() => {
           </div>
           </ha-card>`}
       `;
-    }    
+    }   
+    
+    _textInput(){
+      const newValue = this.$.new_task_input.value;
+      console.log(newValue);
+    }
+    
     _complete(task_name){
       this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
