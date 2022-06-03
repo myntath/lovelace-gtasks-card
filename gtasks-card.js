@@ -81,9 +81,8 @@ customElements.whenDefined('card-tools').then(() => {
             : ""}
           <div class="info flex">
             <div>
-              <paper-input label="new_task" id="new_task_input" type="text" on-input="_textInput">New Task</paper-input>
+              <paper-input label="New Task" id="new_task_input" type="text" on-input="_textInput">New Task</paper-input>
               <div class="secondary">
-              Add new task
               </div>
             </div>
             <div>
