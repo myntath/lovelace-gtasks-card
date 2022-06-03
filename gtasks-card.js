@@ -108,7 +108,7 @@ customElements.whenDefined('card-tools').then(() => {
     }
     
     _update_list(){
-      //@TODO Make a function to update the list
+      //@TODO Make a function to update the list.
     }
     
     _renderStyle() {
