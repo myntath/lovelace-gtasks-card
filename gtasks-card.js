@@ -87,7 +87,7 @@ customElements.whenDefined('card-tools').then(() => {
               </div>
             </div>
             <div>
-              <mwc-button @click=${ev => this._new_task(document.getElementById('new_task_text_box').value)}>+</mwc-button>
+              <mwc-button @click=${ev => this._new_task()}>+</mwc-button>
             </div>
           </div>
           </ha-card>`}
@@ -101,10 +101,7 @@ customElements.whenDefined('card-tools').then(() => {
     }
 
     _new_task(new_task_name){
-      console.log('testpoint');
-      console.log(new_task_name);
-      var new_task_name_2 = document.getElementById('new_task_text_box').value;
-      console.log(new_task_name_2);
+      var new_task_name = this.$.new_task_text_box.value;
       this._hass.callService("gtasks", "new_task", {
         task_title: new_task_name
       });
