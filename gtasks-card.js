@@ -81,7 +81,7 @@ customElements.whenDefined('card-tools').then(() => {
             : ""}
           <div class="info flex">
             <div>
-              <input type="text" name="new_task" id="new_task_text_box">
+              <mwc-textfield label="new_task"></mwc-textfield>
               <div class="secondary">
               Add new task
               </div>
