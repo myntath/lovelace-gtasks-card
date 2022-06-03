@@ -79,9 +79,12 @@ customElements.whenDefined('card-tools').then(() => {
             </div>
             ${this.notShowing.length > 0 ? cardTools.LitHtml`<div class="secondary">${"Look in Google Tasks for " + this.notShowing.length + " more tasks..."}</div>`
             : ""}
-          <div>
+          <div class="info flex">
             <div>
               <input type="text" name="new_task" id="new_task_text_box">
+              <div class="secondary">
+              Add new task
+              </div>
             </div>
             <div>
               <mwc-button @click=${ev => this._new_task()}>+</mwc-button>
@@ -98,10 +101,16 @@ customElements.whenDefined('card-tools').then(() => {
     }
 
     _new_task(){
+      var new_task_name = doument.getElementsById('new_task_text_box').value
       this._hass.callService("gtasks", "new_task", {
-        task_title: 'sample title'
+        task_title: new_task_name
       });
     }
+    
+    _update_list(){
+      //@TODO Make a function to update the list
+    }
+    
     _renderStyle() {
         return cardTools.LitHtml
         `
