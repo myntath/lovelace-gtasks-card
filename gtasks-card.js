@@ -94,6 +94,7 @@ customElements.whenDefined('card-tools').then(() => {
     }   
     
     _textInput(){
+      console.log('hello');
       const newValue = this.$.new_task_input.value;
       console.log(newValue);
     }
