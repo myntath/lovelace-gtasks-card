@@ -79,6 +79,14 @@ customElements.whenDefined('card-tools').then(() => {
             </div>
             ${this.notShowing.length > 0 ? cardTools.LitHtml`<div class="secondary">${"Look in Google Tasks for " + this.notShowing.length + " more tasks..."}</div>`
             : ""}
+          <div>
+            <div>
+              <input type="text" name="new_task" id="new_task_text_box">
+            </div>
+            <div>
+              <mwc-button @click=${ev => this._new_task()}>+</mwc-button>
+            </div>
+          </div>
           </ha-card>`}
       `;
     }    
@@ -89,6 +97,11 @@ customElements.whenDefined('card-tools').then(() => {
       });
     }
 
+    _new_task(){
+      this._hass.callService("gtasks", "new_task", {
+        task_title: 'sample title'
+      });
+    }
     _renderStyle() {
         return cardTools.LitHtml
         `
