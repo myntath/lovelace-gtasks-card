@@ -107,7 +107,7 @@ customElements.whenDefined('card-tools').then(() => {
     }
 
     _new_task(new_task_name){
-      var new_task_name = this.$.new_task_input.value;
+      var new_task_name = this.shadowRoot.querySelector("#new_task_input").value;
       this._hass.callService("gtasks", "new_task", {
         task_title: new_task_name
       });
