@@ -52,8 +52,7 @@ customElements.whenDefined('card-tools').then(() => {
       `
         ${this._renderStyle()}
         ${cardTools.LitHtml
-          `<h1 class="card-header">${this.header}</h1>
-           <ha-card>
+          `<ha-card>
             <h1 class="card-header">${this.header}</h1>
             <div>
               ${this.tasks.length > 0 ? cardTools.LitHtml`
@@ -118,6 +117,9 @@ customElements.whenDefined('card-tools').then(() => {
         return cardTools.LitHtml
         `
           <style>
+            card-header {
+              padding: 0 0 16px 
+            }
             ha-card {
               padding: 16px;
             }
