@@ -94,7 +94,7 @@ customElements.whenDefined('card-tools').then(() => {
     }   
    
     _complete(task_name){
-      var sensor_name = 'sensor.gtasks_' + this.list_name
+      var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_'); // @TODO do this properly by getting the actual name
       this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
         list_title: this.list_name
@@ -106,7 +106,7 @@ customElements.whenDefined('card-tools').then(() => {
 
     _new_task(new_task_name){
       var new_task_name = this.shadowRoot.querySelector("#new_task_input").value;
-      var sensor_name = 'sensor.gtasks_' + this.list_name
+      var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_');
       this._hass.callService("gtasks", "new_task", {
         task_title: new_task_name
       });
