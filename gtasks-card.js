@@ -118,7 +118,7 @@ customElements.whenDefined('card-tools').then(() => {
         `
           <style>
             card-header {
-              padding: 0 0 16px 
+              padding: 0 0 16px important!; 
             }
             ha-card {
               padding: 16px;
