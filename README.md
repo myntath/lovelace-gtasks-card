@@ -11,7 +11,7 @@ For manual installation see [this guide](https://github.com/thomasloven/hass-con
 
 **This card reqires [card tools](https://github.com/thomasloven/lovelace-card-tools).**
 
-it's a fork from [lovelace-grocy-chores-card](https://github.com/isabellaalstrom/lovelace-grocy-chores-card) thx ! and also a fork from @BlueBlueBlob also thx!
+it's a fork from [lovelace-grocy-chores-card](https://github.com/isabellaalstrom/lovelace-grocy-chores-card) thx ! and also a fork from [@BlueBlueBlob](https://github.com/blueblueblob) also thx!
 
 ## Example configuration
 
