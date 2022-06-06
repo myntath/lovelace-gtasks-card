@@ -88,7 +88,7 @@ customElements.whenDefined('card-tools').then(() => {
     }   
    
     _complete(task_name){
-      var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_'); // @TODO do this properly by getting the actual name and remove double refresh which probably don't need.
+      var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_'); // @TODO do this properly by getting the actual name and remove double refresh which probably don't need
       this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
         list_title: this.list_name
