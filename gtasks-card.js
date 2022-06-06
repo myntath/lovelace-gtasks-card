@@ -122,7 +122,7 @@ customElements.whenDefined('card-tools').then(() => {
         `
           <style>
             ha-card {
-              padding: 2px;
+              padding: 16px;
             }
             .header {
               padding: 0;
@@ -132,7 +132,7 @@ customElements.whenDefined('card-tools').then(() => {
               padding: 4px 0 12px;
             }
             .info {
-              padding-bottom: 1em;
+              padding-bottom: 4px;
             }
             .flex {
               display: flex;
