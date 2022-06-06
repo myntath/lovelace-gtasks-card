@@ -102,6 +102,9 @@ customElements.whenDefined('card-tools').then(() => {
       this._hass.callService("homeassistant", "update_entity", {
         entity_id: sensor_name
       });
+      this._hass.callService("homeassistant", "update_entity", {
+        entity_id: sensor_name
+      });
     }
 
     _new_task(new_task_name){
