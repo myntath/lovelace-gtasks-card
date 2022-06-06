@@ -53,11 +53,7 @@ customElements.whenDefined('card-tools').then(() => {
         ${this._renderStyle()}
         ${cardTools.LitHtml
           `<ha-card>
-            <div class="header">
-              <div class="name">
-                <h1 class="card-header">${this.header}</h1>
-              </div>
-            </div>
+            <h1 class="card-header">${this.header}</h1>
             <div>
               ${this.tasks.length > 0 ? cardTools.LitHtml`
               ${this.tasks.map(task =>
