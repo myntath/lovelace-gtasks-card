@@ -93,12 +93,12 @@ customElements.whenDefined('card-tools').then(() => {
         task_title: task_name,
         tasks_list: this.list_name
       });
-      this._hass.callService("homeassistant", "update_entity", {
-        entity_id: 'sensor.gtasks_my_tasks'
-      });
-      this._hass.callService("homeassistant", "update_entity", {
-        entity_id: 'test 2'
-      });
+      // this._hass.callService("homeassistant", "update_entity", {
+      //   entity_id: sensor_name 
+      // });
+      // this._hass.callService("homeassistant", "update_entity", {
+      //   entity_id: sensor_name
+      // });
     }
 
     _new_task(new_task_name){
@@ -109,9 +109,9 @@ customElements.whenDefined('card-tools').then(() => {
 	tasks_list: this.list_name
       });
       this.shadowRoot.querySelector("#new_task_input").value = "";
-      this._hass.callService("homeassistant", "update_entity", {
-        entity_id: 'test1'
-      });
+      // this._hass.callService("homeassistant", "update_entity", {
+      //   entity_id: sensor_name
+      // });
     }
       
     _renderStyle() {
