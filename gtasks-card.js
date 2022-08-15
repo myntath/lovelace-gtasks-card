@@ -62,7 +62,7 @@ customElements.whenDefined('card-tools').then(() => {
                   <div>
                     ${task.task_title}
                     <div class="secondary">
-                    <span class="${task.due_date != "-" ? this.checkDueClass(task.dueInDays) : ""}">${task.due_date != "-" ? "Due:" + this.formatDueDate(task.due_date, task.dueInDays) : ""}</span>
+                    <span class="${task.due_date != "-" ? this.checkDueClass(task.dueInDays) : ""}">${task.due_date != "-" ? "Due: " + this.formatDueDate(task.due_date, task.dueInDays) : ""}</span>
                     </div>
                   </div>
                   <div>
@@ -93,9 +93,9 @@ customElements.whenDefined('card-tools').then(() => {
         task_title: task_name,
         tasks_list: this.list_name
       });
-      // this._hass.callService("homeassistant", "update_entity", {
-      //   entity_id: sensor_name 
-      // });
+      this._hass.callService("homeassistant", "update_entity", {
+        entity_id: 'sensor.gtasks_my_tasks' 
+      });
       // this._hass.callService("homeassistant", "update_entity", {
       //   entity_id: sensor_name
       // });
@@ -109,9 +109,9 @@ customElements.whenDefined('card-tools').then(() => {
 	tasks_list: this.list_name
       });
       this.shadowRoot.querySelector("#new_task_input").value = "";
-      // this._hass.callService("homeassistant", "update_entity", {
-      //   entity_id: sensor_name
-      // });
+      this._hass.callService("homeassistant", "update_entity", {
+        entity_id: 'sensor.gtasks_testlist'
+      });
     }
       
     _renderStyle() {
