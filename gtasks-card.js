@@ -62,7 +62,7 @@ customElements.whenDefined('card-tools').then(() => {
                   <div>
                     ${task.task_title}
                     <div class="secondary">
-                    <span class="${task.due_date != '-' ? this.checkDueClass(task.dueInDays) : ""}">${task.due_date != '-' ? 'Due:' + this.formatDueDate(task.due_date, task.dueInDays) : ""}</span>
+                    <span class="${task.due_date != "-" ? this.checkDueClass(task.dueInDays) : ""}">${task.due_date != "-" ? "Due:" + this.formatDueDate(task.due_date, task.dueInDays) : ""}</span>
                     </div>
                   </div>
                   <div>
