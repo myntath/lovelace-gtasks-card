@@ -66,7 +66,7 @@ customElements.whenDefined('card-tools').then(() => {
                     </div>
                   </div>
                   <div>
-                    <mwc-button id=${'task_' + task.task_title} @click=${ev => this._complete(task.task_title)}>✓</mwc-button>
+                    <mwc-button id=${'task_' + index} @click=${ev => this._complete(task.task_title, index)}>✓</mwc-button>
                   </div>
                 </div>
 
@@ -87,9 +87,9 @@ customElements.whenDefined('card-tools').then(() => {
       `;
     }   
    
-    async _complete(task_name){
+    async _complete(task_name, index){
       var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_'); // @TODO do this properly by getting the actual name, also show spinner while waiting
-      this.shadowRoot.querySelector("#task_" + task_name).setAttribute('disabled');
+      this.shadowRoot.querySelector("#task_" + index).setAttribute('disabled');
       await this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
         tasks_list: this.list_name
@@ -97,7 +97,7 @@ customElements.whenDefined('card-tools').then(() => {
       await this._hass.callService("homeassistant", "update_entity", {
         entity_id: sensor_name 
       });
-      this.shadowRoot.querySelector("#task_" + task_name).setAttribute('enabled');
+      this.shadowRoot.querySelector("#task_" + index).removeAttribute('disabled');
     }
 
     async _new_task(new_task_name){
@@ -186,7 +186,7 @@ customElements.whenDefined('card-tools').then(() => {
             return;
         })
 
-        tasks.map(task =>{
+        tasks.map((task, index) =>{
           var dueInDays = task.due_date ? this.calculateDueDate(task.due_date) : 10000;
           task.dueInDays = dueInDays;
           if(this.show_days != null) {
