@@ -87,24 +87,21 @@ customElements.whenDefined('card-tools').then(() => {
       `;
     }   
    
-    _complete(task_name){
-      var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_'); // @TODO do this properly by getting the actual name and remove double refresh which probably don't need.
-      this._hass.callService("gtasks", "complete_task", {
+    async _complete(task_name){
+      var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_'); // @TODO do this properly by getting the actual name, also show spinner while waiting
+      await this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
         tasks_list: this.list_name
       });
       this._hass.callService("homeassistant", "update_entity", {
-        entity_id: 'sensor.gtasks_my_tasks' 
+        entity_id: sensor_name 
       });
-      // this._hass.callService("homeassistant", "update_entity", {
-      //   entity_id: sensor_name
-      // });
     }
 
-    _new_task(new_task_name){
+    async _new_task(new_task_name){
       var new_task_name = this.shadowRoot.querySelector("#new_task_input").value;
       var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_');
-      this._hass.callService("gtasks", "new_task", {
+      await this._hass.callService("gtasks", "new_task", {
         task_title: new_task_name,
 	tasks_list: this.list_name
       });
@@ -192,13 +189,13 @@ customElements.whenDefined('card-tools').then(() => {
             }
             else if(task.due_date != null && task.due_date.slice(0,4) == "2999") {
               task.due_date = "-";
-              allTasks.unshift(task)
+              allTasks.push(task)
             }
           }
           else {
             if(task.due_date == null || dueInDays == 10000 || task.due_date.slice(0,4) == "2999"){
               task.due_date = "-";
-              allTasks.unshift(task)
+              allTasks.push(task)
             }
             else
               allTasks.push(task);
