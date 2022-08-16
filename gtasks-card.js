@@ -80,7 +80,7 @@ customElements.whenDefined('card-tools').then(() => {
               <paper-input label="New Task" id="new_task_input" type="text" no-label-float>New Task</paper-input>
             </div>
             <div>
-              <mwc-button label="new_task_button" @click=${ev => this._new_task()}>+</mwc-button>
+              <mwc-button id="new_task_button" @click=${ev => this._new_task()}>+</mwc-button>
             </div>
           </div>
           </ha-card>`}
