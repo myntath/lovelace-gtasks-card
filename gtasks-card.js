@@ -175,7 +175,7 @@ customElements.whenDefined('card-tools').then(() => {
             var aParsedDueDate = new Date(aSplitDate[0], aSplitDate[1]-1, aSplitDate[2]);
             var bParsedDueDate = new Date(bSplitDate[0], bSplitDate[1]-1, bSplitDate[2]);
   
-            return aParsedDueDate - bParsedDueDate;
+            return bParsedDueDate - aParsedDueDate;
           }
             return;
         })
@@ -185,7 +185,7 @@ customElements.whenDefined('card-tools').then(() => {
           task.dueInDays = dueInDays;
           if(this.show_days != null) {
             if(dueInDays <= this.show_days){
-              allTasks.push(task);
+              allTasks.unshift(task);
             }
             else if(task.due_date != null && task.due_date.slice(0,4) == "2999") {
               task.due_date = "-";
@@ -193,12 +193,12 @@ customElements.whenDefined('card-tools').then(() => {
             }
           }
           else {
-            if(task.due_date == null || dueInDays == 10000 || task.due_date.slice(0,4) == "2999"){
+            if(task.due_date == null || task.due_date == "-" || dueInDays == 10000 || task.due_date.slice(0,4) == "2999"){
               task.due_date = "-";
               allTasks.push(task)
             }
             else
-              allTasks.push(task);
+              allTasks.unshift(task);
           }
         })
         
