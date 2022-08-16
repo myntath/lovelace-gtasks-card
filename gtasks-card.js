@@ -93,7 +93,7 @@ customElements.whenDefined('card-tools').then(() => {
         task_title: task_name,
         tasks_list: this.list_name
       });
-      this._hass.callService("homeassistant", "update_entity", {
+      await this._hass.callService("homeassistant", "update_entity", {
         entity_id: sensor_name 
       });
     }
@@ -103,10 +103,10 @@ customElements.whenDefined('card-tools').then(() => {
       var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_');
       await this._hass.callService("gtasks", "new_task", {
         task_title: new_task_name,
-	tasks_list: this.list_name
+        tasks_list: this.list_name
       });
       this.shadowRoot.querySelector("#new_task_input").value = "";
-      this._hass.callService("homeassistant", "update_entity", {
+      await this._hass.callService("homeassistant", "update_entity", {
         entity_id: 'sensor.gtasks_testlist'
       });
     }
