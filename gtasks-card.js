@@ -107,7 +107,7 @@ customElements.whenDefined('card-tools').then(() => {
       });
       this.shadowRoot.querySelector("#new_task_input").value = "";
       await this._hass.callService("homeassistant", "update_entity", {
-        entity_id: 'sensor.gtasks_testlist'
+        entity_id: sensor_name 
       });
     }
       
