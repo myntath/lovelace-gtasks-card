@@ -66,7 +66,7 @@ customElements.whenDefined('card-tools').then(() => {
                     </div>
                   </div>
                   <div>
-                    <mwc-button @click=${ev => this._complete(task.task_title)}>✓</mwc-button>
+                    <mwc-button id=${'task_' + task.task_title} @click=${ev => this._complete(task.task_title)}>✓</mwc-button>
                   </div>
                 </div>
 
@@ -80,7 +80,7 @@ customElements.whenDefined('card-tools').then(() => {
               <paper-input label="New Task" id="new_task_input" type="text" no-label-float>New Task</paper-input>
             </div>
             <div>
-              <mwc-button @click=${ev => this._new_task()}>+</mwc-button>
+              <mwc-button label="new_task_button" @click=${ev => this._new_task()}>+</mwc-button>
             </div>
           </div>
           </ha-card>`}
@@ -89,6 +89,7 @@ customElements.whenDefined('card-tools').then(() => {
    
     async _complete(task_name){
       var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_'); // @TODO do this properly by getting the actual name, also show spinner while waiting
+      this.shadowRoot.querySelector("#task_" + task_name).setAttribute('disabled');
       await this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
         tasks_list: this.list_name
@@ -96,19 +97,24 @@ customElements.whenDefined('card-tools').then(() => {
       await this._hass.callService("homeassistant", "update_entity", {
         entity_id: sensor_name 
       });
+      this.shadowRoot.querySelector("#task_" + task_name).setAttribute('enabled');
     }
 
     async _new_task(new_task_name){
       var new_task_name = this.shadowRoot.querySelector("#new_task_input").value;
+      this.shadowRoot.querySelector("#new_task_input").setAttribute('disabled');
+      this.shadowRoot.querySelector("#new_task_button").setAttribute('disabled');
       var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_');
       await this._hass.callService("gtasks", "new_task", {
         task_title: new_task_name,
         tasks_list: this.list_name
       });
-      this.shadowRoot.querySelector("#new_task_input").value = "";
       await this._hass.callService("homeassistant", "update_entity", {
         entity_id: sensor_name 
       });
+      this.shadowRoot.querySelector("#new_task_input").value = "";
+      this.shadowRoot.querySelector("#new_task_input").removeAttribute('disabled');
+      this.shadowRoot.querySelector("#new_task_button").removeAttribute('disabled');
     }
       
     _renderStyle() {
