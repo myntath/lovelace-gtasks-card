@@ -88,7 +88,7 @@ customElements.whenDefined('card-tools').then(() => {
     }   
    
     async _complete(task_name, index){
-      var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_'); // @TODO do this properly by getting the actual name, also show spinner while waiting
+      var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_');
       this.shadowRoot.querySelector("#task_" + index).setAttribute('disabled');
       await this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
