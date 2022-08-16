@@ -56,7 +56,7 @@ customElements.whenDefined('card-tools').then(() => {
             <h1 class="card-header">${this.header}</h1>
             <div>
               ${this.tasks.length > 0 ? cardTools.LitHtml`
-              ${this.tasks.map(task =>
+              ${this.tasks.map((task, index) =>
                 cardTools.LitHtml`
                 <div class="info flex">
                   <div>
@@ -186,7 +186,7 @@ customElements.whenDefined('card-tools').then(() => {
             return;
         })
 
-        tasks.map((task, index) =>{
+        tasks.map(task =>{
           var dueInDays = task.due_date ? this.calculateDueDate(task.due_date) : 10000;
           task.dueInDays = dueInDays;
           if(this.show_days != null) {
