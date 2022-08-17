@@ -179,7 +179,10 @@ customElements.whenDefined('card-tools').then(() => {
               color: #8c96a5;
               padding-left: 15px;
               margin-top: -4px;
-          }
+            }
+	    .mdc-button {
+	      height: unset;
+	    }
           </style>
         `;
       }
