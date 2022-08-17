@@ -13,11 +13,11 @@ customElements.whenDefined('card-tools').then(() => {
     calculateDueDate(dueDate){
       var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
       var today = new Date();
-      today.setHours(0,0,0,0)
+      today.setHours(0,0,0,0);
 
-      var splitDate = dueDate.split(/[- :T]/)
+      var splitDate = dueDate.split(/[- :T]/);
       var parsedDueDate = new Date(splitDate[0], splitDate[1]-1, splitDate[2]);
-      parsedDueDate.setHours(0,0,0,0)
+      parsedDueDate.setHours(0,0,0,0);
       
       var dueInDays;
       if(today > parsedDueDate) {
@@ -38,13 +38,22 @@ customElements.whenDefined('card-tools').then(() => {
         return "not-due";
     }
 
-    formatDueDate(dueDate, dueInDays) {
+    formatDueDate(dueDate, dueInDays, dateFormat) {
       if (dueInDays < 0)
         return "Overdue";
       else if (dueInDays == 0)
         return "Today";
-      else
-        return dueDate.substr(0, 10);
+      else {
+        if (dateFormat == 'MDY') {
+          var splitDate = dueDate.split(/[- :T]/)
+          return `${splitDate[1]}-${splitDate[2]}-${splitDate[0]}`;
+        } else if (dateFormat == 'DMY') {
+          var splitDate = dueDate.split(/[- :T]/)
+          return `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`;
+        } else {
+          return dueDate.substr(0, 10);
+        }
+      }
     }
 
     render(){
@@ -60,29 +69,31 @@ customElements.whenDefined('card-tools').then(() => {
                 cardTools.LitHtml`
                 <div class="info flex">
                   <div>
-                    ${task.task_title}
+                    <div class="task-title">${this.task_prefix}${task.task_title}</div>
                     <div class="secondary">
-                    <span class="${task.due_date != "-" ? this.checkDueClass(task.dueInDays) : ""}">${task.due_date != "-" ? "Due: " + this.formatDueDate(task.due_date, task.dueInDays) : ""}</span>
+                    <span class="${task.due_date != "-" ? this.checkDueClass(task.dueInDays) : ""}">${task.due_date != "-" ? "Due: " + this.formatDueDate(task.due_date, task.dueInDays, this.date_format): ""}</span>
                     </div>
                   </div>
-                  <div>
-                    <mwc-button id=${'task_' + index} @click=${ev => this._complete(task.task_title, index)}>✓</mwc-button>
-                  </div>
+                  ${this.show_check != false ? cardTools.LitHtml`<div class="checkbox">
+                  <mwc-button id=${'task_' + index} @click=${ev => this._complete(task.task_title, index)}>✓</mwc-button>
+                </div>`
+                  : ""}
                 </div>
 
                 `
-              )}` : cardTools.LitHtml`<div class="info flex">No tasks!</div>`}
+              )}` : cardTools.LitHtml`<div class="info flex">- No tasks...</div>`}
             </div>
             ${this.notShowing.length > 0 ? cardTools.LitHtml`<div class="secondary">${"Look in Google Tasks for " + this.notShowing.length + " more tasks..."}</div>`
             : ""}
-          <div class="info flex">
+            ${this.show_add != false ? cardTools.LitHtml`
+            <div class="info flex new-task">
             <div>
               <paper-input label="New Task" id="new_task_input" type="text" no-label-float>New Task</paper-input>
             </div>
             <div>
               <mwc-button id="new_task_button" @click=${ev => this._new_task()}>+</mwc-button>
             </div>
-          </div>
+          </div>` : "" }
           </ha-card>`}
       `;
     }   
@@ -122,24 +133,39 @@ customElements.whenDefined('card-tools').then(() => {
         `
           <style>
             .card-header {
-              padding: 0 0 16px !important; 
+              padding: 0 0 0px !important; 
             }
             ha-card {
               padding: 16px;
+              height: 100%;
             }
             .header {
               padding: 0;
               @apply --paper-font-headline;
-              line-height: 40px;
+              text-align: center;
               color: var(--primary-text-color);
               padding: 4px 0 12px;
             }
+            .checkbox {
+              display: flex;
+            }
+            .new-task {
+              padding-top: 5px;
+              line-height: normal !important;
+            }
+            .task-title {
+              padding-left: 12px;
+              text-indent: -12px;
+            }
             .info {
-              padding-bottom: 4px;
+              padding-bottom: 5px;
+              font-size: 1.2em;
+              align-items: center;
             }
             .flex {
               display: flex;
               justify-content: space-between;
+              line-height: 1.1em;
             }
             .overdue {
               color: red !important;
@@ -149,7 +175,10 @@ customElements.whenDefined('card-tools').then(() => {
             }
             .secondary {
               display: block;
+              font-size: 0.8em;
               color: #8c96a5;
+              padding-left: 15px;
+              margin-top: -4px;
           }
           </style>
         `;
@@ -165,6 +194,11 @@ customElements.whenDefined('card-tools').then(() => {
 
       this.show_quantity = this.config.show_quantity == null ? null : this.config.show_quantity;
       this.show_days = this.config.show_days == null ? null : this.config.show_days;
+      this.show_add = this.config.show_add == null ? null : this.config.show_add;
+      this.show_check = this.config.show_check == null ? null : this.config.show_check;
+      this.task_prefix = this.config.task_prefix == null ? null : this.config.task_prefix;
+      //options for date_format are 'YMD' 'DMY' 'MDY'
+      this.date_format = this.config.date_format == null ? 'YMD' : this.config.date_format;
 
       if (entity.state == 'unknown')
         throw new Error("The Gtasks sensor is unknown.");
