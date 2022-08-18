@@ -13,20 +13,26 @@ For manual installation see [this guide](https://github.com/thomasloven/hass-con
 
 it's a fork from [lovelace-grocy-chores-card](https://github.com/isabellaalstrom/lovelace-grocy-chores-card) thx ! and also a fork from [@BlueBlueBlob](https://github.com/blueblueblob) also thx!
 
-## Example configuration
+## Configuration
 
+Options include:
+- title: a string to change the title.
+- show_quantity: a number which will limit the number of items shown.
+- show_days: a number so that only tasks within that many days are shown.
+- show_add: true/false whether to show add new task at the bottom of list.
+- show_check: whether to show check marks to complete tasks.
+- task_prefix: a string which is prefixed to all tasks i.e. ' * '.
+- date_format: a string of either 'YMD', 'DMY', 'MDY' to print dates in your preferred format.
 
-
+Example:
 ```yaml
-title: My awesome Lovelace config
-resources:
-  - url: /local/gtasks-card.js
-    type: js
-views:
-  title: My view
-  cards:
-    - type: custom:gtasks-card
-      entity: sensor.gtasks_my_tasks
+type: custom:gtasks-card
+entity: sensor.gtasks_my_tasks
+title: Tasks
+show_add: true
+task_prefix: '- '
+date_format: DMY
+show_check: true
 ```
 
 
