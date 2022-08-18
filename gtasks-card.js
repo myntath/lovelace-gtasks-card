@@ -67,7 +67,7 @@ customElements.whenDefined("card-tools").then(() => {
               ${this.tasks.length > 0 ? cardTools.LitHtml`
               ${this.tasks.map((task, index) =>
                 cardTools.LitHtml`
-                <div class="info flex">
+                <div class="info flex task">
                   <div>
                     <div class="task-title">${this.task_prefix}${task.task_title}</div>
                     <div class="secondary">
@@ -133,7 +133,7 @@ customElements.whenDefined("card-tools").then(() => {
         `
           <style>
             .card-header {
-              padding: 0 0 0px !important;
+              padding: 0 0 10px !important;
             }
             ha-card {
               padding: 16px;
@@ -149,9 +149,14 @@ customElements.whenDefined("card-tools").then(() => {
             .checkbox {
               display: flex;
             }
+	    .task {
+	      height: 40px;
+	      padding: 3px 0 3px 10px;
+	    }
             .new-task {
               padding-top: 5px;
               line-height: normal !important;
+	      padding-left: 15px;
             }
             .task-title {
               padding-left: 12px;
@@ -159,13 +164,12 @@ customElements.whenDefined("card-tools").then(() => {
             }
             .info {
               padding-bottom: 5px;
-              font-size: 1.2em;
+              font-size: large;
               align-items: center;
             }
             .flex {
               display: flex;
               justify-content: space-between;
-              line-height: 1.1em;
             }
             .overdue {
               color: red !important;
