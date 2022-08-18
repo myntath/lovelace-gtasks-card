@@ -150,7 +150,6 @@ customElements.whenDefined("card-tools").then(() => {
               display: flex;
             }
 	    .task {
-	      height: 40px;
 	      padding: 3px 0 3px 10px;
 	    }
             .new-task {
@@ -164,7 +163,7 @@ customElements.whenDefined("card-tools").then(() => {
             }
             .info {
               padding-bottom: 5px;
-              font-size: large;
+              font-size: 1.2em;
               align-items: center;
             }
             .flex {
