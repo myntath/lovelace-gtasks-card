@@ -75,7 +75,7 @@ customElements.whenDefined("card-tools").then(() => {
                     </div>
                   </div>
                   ${this.show_check != false ? cardTools.LitHtml`<div class="checkbox">
-                  <mwc-button id=${"task_" + index} @click=${ev => this._complete(task.task_title, index)}>✓</mwc-button>
+                  <mwc-button class="button" id=${"task_" + index} @click=${ev => this._complete(task.task_title, index)}>✓</mwc-button>
                 </div>`
                   : ""}
                 </div>
@@ -149,13 +149,13 @@ customElements.whenDefined("card-tools").then(() => {
             .checkbox {
               display: flex;
             }
-	    .task {
-	      padding: 3px 0 3px 10px;
-	    }
+            .task {
+              padding: 3px 0 3px 10px;
+            }
             .new-task {
               padding-top: 5px;
               line-height: normal !important;
-	      padding-left: 15px;
+              padding-left: 15px;
             }
             .task-title {
               padding-left: 12px;
@@ -183,9 +183,9 @@ customElements.whenDefined("card-tools").then(() => {
               padding-left: 15px;
               margin-top: -4px;
             }
-	    .mdc-button {
-	      height: unset;
-	    }
+						.button {
+						  height: 0px;
+						}
           </style>
         `;
       }
