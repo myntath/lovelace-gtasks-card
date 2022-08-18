@@ -1,15 +1,15 @@
-customElements.whenDefined('card-tools').then(() => {
-  let cardTools = customElements.get('card-tools');
-    
+customElements.whenDefined("card-tools").then(() => {
+  let cardTools = customElements.get("card-tools");
+
   class GtasksCard extends cardTools.LitElement {
-    
+
     setConfig(config) {
       if (!config.entity) {
-        throw new Error('Please define entity');
+        throw new Error("Please define entity");
       }
       this.config = config;
     }
-    
+
     calculateDueDate(dueDate){
       var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
       var today = new Date();
@@ -18,7 +18,7 @@ customElements.whenDefined('card-tools').then(() => {
       var splitDate = dueDate.split(/[- :T]/);
       var parsedDueDate = new Date(splitDate[0], splitDate[1]-1, splitDate[2]);
       parsedDueDate.setHours(0,0,0,0);
-      
+
       var dueInDays;
       if(today > parsedDueDate) {
         dueInDays = -1;
@@ -44,10 +44,10 @@ customElements.whenDefined('card-tools').then(() => {
       else if (dueInDays == 0)
         return "Today";
       else {
-        if (dateFormat == 'MDY') {
+        if (dateFormat == "MDY") {
           var splitDate = dueDate.split(/[- :T]/)
           return `${splitDate[1]}-${splitDate[2]}-${splitDate[0]}`;
-        } else if (dateFormat == 'DMY') {
+        } else if (dateFormat == "DMY") {
           var splitDate = dueDate.split(/[- :T]/)
           return `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`;
         } else {
@@ -75,7 +75,7 @@ customElements.whenDefined('card-tools').then(() => {
                     </div>
                   </div>
                   ${this.show_check != false ? cardTools.LitHtml`<div class="checkbox">
-                  <mwc-button id=${'task_' + index} @click=${ev => this._complete(task.task_title, index)}>✓</mwc-button>
+                  <mwc-button id=${"task_" + index} @click=${ev => this._complete(task.task_title, index)}>✓</mwc-button>
                 </div>`
                   : ""}
                 </div>
@@ -96,44 +96,44 @@ customElements.whenDefined('card-tools').then(() => {
           </div>` : "" }
           </ha-card>`}
       `;
-    }   
-   
+    }
+
     async _complete(task_name, index){
-      var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_');
-      this.shadowRoot.querySelector("#task_" + index).setAttribute('disabled');
+      var sensor_name = "sensor.gtasks_" + this.list_name.toLowerCase().replaceAll(" ", "_");
+      this.shadowRoot.querySelector("#task_" + index).setAttribute("disabled");
       await this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
         tasks_list: this.list_name
       });
       await this._hass.callService("homeassistant", "update_entity", {
-        entity_id: sensor_name 
+        entity_id: sensor_name
       });
-      this.shadowRoot.querySelector("#task_" + index).removeAttribute('disabled');
+      this.shadowRoot.querySelector("#task_" + index).removeAttribute("disabled");
     }
 
     async _new_task(new_task_name){
       var new_task_name = this.shadowRoot.querySelector("#new_task_input").value;
-      this.shadowRoot.querySelector("#new_task_input").setAttribute('disabled');
-      this.shadowRoot.querySelector("#new_task_button").setAttribute('disabled');
-      var sensor_name = 'sensor.gtasks_' + this.list_name.toLowerCase().replaceAll(' ', '_');
+      this.shadowRoot.querySelector("#new_task_input").setAttribute("disabled");
+      this.shadowRoot.querySelector("#new_task_button").setAttribute("disabled");
+      var sensor_name = "sensor.gtasks_" + this.list_name.toLowerCase().replaceAll(" ", "_");
       await this._hass.callService("gtasks", "new_task", {
         task_title: new_task_name,
         tasks_list: this.list_name
       });
       await this._hass.callService("homeassistant", "update_entity", {
-        entity_id: sensor_name 
+        entity_id: sensor_name
       });
       this.shadowRoot.querySelector("#new_task_input").value = "";
-      this.shadowRoot.querySelector("#new_task_input").removeAttribute('disabled');
-      this.shadowRoot.querySelector("#new_task_button").removeAttribute('disabled');
+      this.shadowRoot.querySelector("#new_task_input").removeAttribute("disabled");
+      this.shadowRoot.querySelector("#new_task_button").removeAttribute("disabled");
     }
-      
+
     _renderStyle() {
         return cardTools.LitHtml
         `
           <style>
             .card-header {
-              padding: 0 0 0px !important; 
+              padding: 0 0 0px !important;
             }
             ha-card {
               padding: 16px;
@@ -186,12 +186,12 @@ customElements.whenDefined('card-tools').then(() => {
           </style>
         `;
       }
-    
+
     set hass(hass) {
       this._hass = hass;
-      
+
       const entity = hass.states[this.config.entity];
-      const list_title = entity.attributes.friendly_name.split('_')[1]
+      const list_title = entity.attributes.friendly_name.split("_")[1]
       this.list_name = list_title
       this.header = this.config.title == null ? list_title : this.config.title;
 
@@ -200,12 +200,12 @@ customElements.whenDefined('card-tools').then(() => {
       this.show_add = this.config.show_add == null ? null : this.config.show_add;
       this.show_check = this.config.show_check == null ? null : this.config.show_check;
       this.task_prefix = this.config.task_prefix == null ? null : this.config.task_prefix;
-      //options for date_format are 'YMD' 'DMY' 'MDY'
-      this.date_format = this.config.date_format == null ? 'YMD' : this.config.date_format;
+      //options for date_format are "YMD" "DMY" "MDY"
+      this.date_format = this.config.date_format == null ? "YMD" : this.config.date_format;
 
-      if (entity.state == 'unknown')
+      if (entity.state == "unknown")
         throw new Error("The Gtasks sensor is unknown.");
-        
+
       var tasks = entity.attributes.tasks;
       var allTasks = []
 
@@ -214,10 +214,10 @@ customElements.whenDefined('card-tools').then(() => {
           if (a.due_date != null && b.due_date != null) {
             var aSplitDate = a.due_date.split(/[- :T]/)
             var bSplitDate = b.due_date.split(/[- :T]/)
-  
+
             var aParsedDueDate = new Date(aSplitDate[0], aSplitDate[1]-1, aSplitDate[2]);
             var bParsedDueDate = new Date(bSplitDate[0], bSplitDate[1]-1, bSplitDate[2]);
-  
+
             return bParsedDueDate - aParsedDueDate;
           }
             return;
@@ -244,7 +244,7 @@ customElements.whenDefined('card-tools').then(() => {
               allTasks.unshift(task);
           }
         })
-        
+
         if(this.show_quantity != null){
           this.tasks = allTasks.slice(0, this.show_quantity);
           this.notShowing = allTasks.slice(this.show_quantity);
@@ -256,25 +256,25 @@ customElements.whenDefined('card-tools').then(() => {
       }
       else
         this.tasks = allTasks;
-      
+
       this.state = entity.state
       this.requestUpdate();
     }
-    
 
-  
+
+
       // @TODO: This requires more intelligent logic
     getCardSize() {
       return 3;
     }
   }
-  
-  customElements.define('gtasks-card', GtasksCard);
+
+  customElements.define("gtasks-card", GtasksCard);
   });
-  
+
   window.setTimeout(() => {
-    if(customElements.get('card-tools')) return;
-    customElements.define('gtasks-card', class extends HTMLElement{
+    if(customElements.get("card-tools")) return;
+    customElements.define("gtasks-card", class extends HTMLElement{
       setConfig() { throw new Error("Can't find card-tools. See https://github.com/thomasloven/lovelace-card-tools");}
     });
   }, 2000);
