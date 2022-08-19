@@ -93,8 +93,8 @@ customElements.whenDefined("card-tools").then(() => {
                     ${this.task_prefix}${child.task_title}
                   </div>
                   <div class="secondary">
-                    <span class="${child.due_date != -1 ? this.checkDueClass(this.calculateDueDate(child.due_date)) : ""}"> #TODO
-                      ${child.due_date != -1 ? "Due: " + this.formatDueDate(child.due_date, this.calculateDueDate(child.due_date), this.date_format): ""}
+                    <span class="${child.due_date != 9999 ? this.checkDueClass(this.calculateDueDate(child.due_date)) : ""}">
+                      ${child.due_date != 9999 ? "Due: " + this.formatDueDate(child.due_date, this.calculateDueDate(child.due_date), this.date_format): ""}
                     </span>
                   </div>
 		</div>
@@ -219,6 +219,10 @@ customElements.whenDefined("card-tools").then(() => {
             .button:hover {
               cursor: pointer;
             }
+	    .button:disabled {
+	      color: var(--disabled-text-color);
+	      cursor: not-allowed;
+	    }
             .child {
               padding: 3px 0 3px 35px;
             }
