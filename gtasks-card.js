@@ -11,6 +11,9 @@ customElements.whenDefined("card-tools").then(() => {
     }
 
     calculateDueDate(dueDate){
+      if (!dueDate) {
+        return -1;
+      }
       var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
       var today = new Date();
       today.setHours(0,0,0,0);
@@ -50,7 +53,8 @@ customElements.whenDefined("card-tools").then(() => {
         } else if (dateFormat == "DMY") {
           var splitDate = dueDate.split(/[- :T]/)
           return `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`;
-        } else {
+        }
+	      else {
           return dueDate.substr(0, 10);
         }
       }
