@@ -97,12 +97,12 @@ customElements.whenDefined("card-tools").then(() => {
                       ${child.due_date != -1 ? "Due: " + this.formatDueDate(child.due_date, this.calculateDueDate(child.due_date), this.date_format): ""}
                     </span>
                   </div>
-                  ${this.show_check != false ? cardTools.LitHtml`
-                  <div class="checkbox">
-                    <button class="button" id=${"task_" + index + "_" + subindex} @click=${ev => this._complete(child.task_title, index + "_" + subindex)}>✓</button>
-                  </div>
-                  `: ""}
+		</div>
+                ${this.show_check != false ? cardTools.LitHtml`
+                <div class="checkbox">
+                  <button class="button" id=${"task_" + index + "_" + subindex} @click=${ev => this._complete(child.task_title, index + "_" + subindex)}>✓</button>
                 </div>
+                `: ""}
               </div>
               `)}
               `)}` : cardTools.LitHtml`
@@ -213,7 +213,7 @@ customElements.whenDefined("card-tools").then(() => {
             .button {
               background: transparent;
               border: none;
-              color: (--accent-color);
+              color: var(--accent-color);
               font-weight: 700;
             }
             .button:hover {
