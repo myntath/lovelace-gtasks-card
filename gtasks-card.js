@@ -65,42 +65,65 @@ customElements.whenDefined("card-tools").then(() => {
             <h1 class="card-header">${this.header}</h1>
             <div>
               ${this.tasks.length > 0 ? cardTools.LitHtml`
-              ${this.tasks.map((task, index) =>
-                cardTools.LitHtml`
-                <div class="info flex task">
-                  <div>
-                    <div class="task-title">${this.task_prefix}${task.task_title}</div>
-                    <div class="secondary">
-                    <span class="${task.due_date != "-" ? this.checkDueClass(task.dueInDays) : ""}">${task.due_date != "-" ? "Due: " + this.formatDueDate(task.due_date, task.dueInDays, this.date_format): ""}</span>
-                    </div>
+              ${this.tasks.map((task, index) => cardTools.LitHtml`
+              <div class="info flex task">
+                <div>
+                  <div class="task-title">
+                    ${this.task_prefix}${task.task_title}
                   </div>
-                  ${this.show_check != false ? cardTools.LitHtml`<div class="checkbox">
-                  <mwc-button class="button" id=${"task_" + index} @click=${ev => this._complete(task.task_title, index)}>✓</mwc-button>
-                </div>`
-                  : ""}
+                  <div class="secondary">
+                    <span class="${task.due_date ? this.checkDueClass(task.dueInDays) : ""}">
+                      ${task.due_date ? "Due: " + this.formatDueDate(task.due_date, task.dueInDays, this.date_format): ""}
+                    </span>
+                  </div>
                 </div>
-
-                `
-              )}` : cardTools.LitHtml`<div class="info flex">- No tasks...</div>`}
+                ${this.show_check != false ? cardTools.LitHtml`
+                <div class="checkbox">
+                  <button class="button" id=${"task_" + index} @click=${ev => this._complete(task.task_title, index)}>✓</button>
+                </div>` : ""}
+              </div>
+              ${task.children.map((child, subindex) => cardTools.LitHtml`
+              <div class="info flex child">
+                <div>
+                  <div class="child-title">
+                    ${this.task_prefix}${child.task_title}
+                  </div>
+                  <div class="secondary">
+                    <span class="${child.due_date != -1 ? this.checkDueClass(this.calculateDueDate(child.due_date)) : ""}"> #TODO
+                      ${child.due_date != -1 ? "Due: " + this.formatDueDate(child.due_date, this.calculateDueDate(child.due_date), this.date_format): ""}
+                    </span>
+                  </div>
+                  ${this.show_check != false ? cardTools.LitHtml`
+                  <div class="checkbox">
+                    <button class="button" id=${"task_" + index + "_" + subindex} @click=${ev => this._complete(child.task_title, index + "_" + subindex)}>✓</button>
+                  </div>
+                  `: ""}
+                </div>
+              </div>
+              `)}
+              `)}` : cardTools.LitHtml`
+              <div class="info flex">- No tasks...</div>
+              `}
             </div>
-            ${this.notShowing.length > 0 ? cardTools.LitHtml`<div class="secondary">${"Look in Google Tasks for " + this.notShowing.length + " more tasks..."}</div>`
+            ${this.notShowing.length > 0 ? cardTools.LitHtml`
+            <div class="secondary">${"Look in Google Tasks for " + this.notShowing.length + " more tasks..."}</div>`
             : ""}
             ${this.show_add != false ? cardTools.LitHtml`
             <div class="info flex new-task">
-            <div>
-              <paper-input label="New Task" id="new_task_input" type="text" no-label-float>New Task</paper-input>
-            </div>
-            <div>
-              <mwc-button id="new_task_button" @click=${ev => this._new_task()}>+</mwc-button>
-            </div>
-          </div>` : "" }
+              <div>
+                <paper-input label="New Task" id="new_task_input" type="text" no-label-float>New Task</paper-input>
+              </div>
+              <div>
+                <button class="button" id="new_task_button" @click=${ev => this._new_task()}>+</button>
+              </div>
+            </div>` : "" }
           </ha-card>`}
       `;
     }
 
     async _complete(task_name, index){
       var sensor_name = "sensor.gtasks_" + this.list_name.toLowerCase().replaceAll(" ", "_");
-      this.shadowRoot.querySelector("#task_" + index).setAttribute("disabled");
+      this.shadowRoot.querySelector("#task_" + index).setAttribute("disabled", "true");
       await this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
         tasks_list: this.list_name
@@ -113,8 +136,8 @@ customElements.whenDefined("card-tools").then(() => {
 
     async _new_task(new_task_name){
       var new_task_name = this.shadowRoot.querySelector("#new_task_input").value;
-      this.shadowRoot.querySelector("#new_task_input").setAttribute("disabled");
-      this.shadowRoot.querySelector("#new_task_button").setAttribute("disabled");
+      this.shadowRoot.querySelector("#new_task_input").setAttribute("disabled", "true");
+      this.shadowRoot.querySelector("#new_task_button").setAttribute("disabled", "true");
       var sensor_name = "sensor.gtasks_" + this.list_name.toLowerCase().replaceAll(" ", "_");
       await this._hass.callService("gtasks", "new_task", {
         task_title: new_task_name,
@@ -183,9 +206,18 @@ customElements.whenDefined("card-tools").then(() => {
               padding-left: 15px;
               margin-top: -4px;
             }
-						.button {
-						  height: 0px;
-						}
+            .button {
+              background: transparent;
+              border: none;
+              color: (--accent-color);
+              font-weight: 700;
+            }
+            .button:hover {
+              cursor: pointer;
+            }
+            .child {
+              padding: 3px 0 3px 35px;
+            }
           </style>
         `;
       }
@@ -234,13 +266,11 @@ customElements.whenDefined("card-tools").then(() => {
               allTasks.unshift(task);
             }
             else if(task.due_date != null && task.due_date.slice(0,4) == "2999") {
-              task.due_date = "-";
               allTasks.push(task)
             }
           }
           else {
-            if(task.due_date == null || task.due_date == "-" || dueInDays == 10000 || task.due_date.slice(0,4) == "2999"){
-              task.due_date = "-";
+            if(task.due_date == null || dueInDays == 10000 || task.due_date.slice(0,4) == "2999"){
               allTasks.push(task)
             }
             else
