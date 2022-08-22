@@ -93,8 +93,8 @@ customElements.whenDefined("card-tools").then(() => {
                     ${this.task_prefix}${child.task_title}
                   </div>
                   <div class="secondary">
-                    <span class="${child.due_date != 9999 ? this.checkDueClass(this.calculateDueDate(child.due_date)) : ""}">
-                      ${child.due_date != 9999 ? "Due: " + this.formatDueDate(child.due_date, this.calculateDueDate(child.due_date), this.date_format): ""}
+                    <span class="${child.due_date ? this.checkDueClass(this.calculateDueDate(child.due_date)) : ""}">
+                      ${child.due_date ? "Due: " + this.formatDueDate(child.due_date, this.calculateDueDate(child.due_date), this.date_format): ""}
                     </span>
                   </div>
 		</div>
@@ -267,18 +267,15 @@ customElements.whenDefined("card-tools").then(() => {
         })
 
         tasks.map(task =>{
-          var dueInDays = task.due_date ? this.calculateDueDate(task.due_date) : 10000;
+          var dueInDays = task.due_date ? this.calculateDueDate(task.due_date) : null;
           task.dueInDays = dueInDays;
           if(this.show_days != null) {
-            if(dueInDays <= this.show_days){
+            if(dueInDays != null && dueInDays <= this.show_days){
               allTasks.unshift(task);
-            }
-            else if(task.due_date != null && task.due_date.slice(0,4) == "2999") {
-              allTasks.push(task)
             }
           }
           else {
-            if(task.due_date == null || dueInDays == 10000 || task.due_date.slice(0,4) == "2999"){
+            if(task.due_date == null){
               allTasks.push(task)
             }
             else
@@ -304,9 +301,8 @@ customElements.whenDefined("card-tools").then(() => {
 
 
 
-      // @TODO: This requires more intelligent logic
     getCardSize() {
-      return 3;
+      return 4 + parseInt(this.tasks.length / 4);
     }
   }
 
