@@ -70,7 +70,7 @@ customElements.whenDefined("card-tools").then(() => {
             <div>
               ${this.tasks.length > 0 ? cardTools.LitHtml`
               ${this.tasks.map((task, index) => cardTools.LitHtml`
-              <div class="info flex task">
+              <div class="info flex task" id=${"task_div_" + index}>
                 <div>
                   <div class="task-title">
                     ${this.task_prefix}${task.task_title}
@@ -83,11 +83,17 @@ customElements.whenDefined("card-tools").then(() => {
                 </div>
                 ${this.show_check != false ? cardTools.LitHtml`
                 <div class="checkbox">
-                  <button class="button" id=${"task_" + index} @click=${ev => this._complete(task.task_title, index)}>✓</button>
+                  <button class="button"
+                          id=${"task_" + index}
+                          @click=${ev => this._complete(task.task_title, index)}
+			  @onmouseover="${this.darkenBg('task_div_' + index, true)}"
+                          @onmouseout="${this.darkenBg('task_div_' + index, false)}">
+                   ✓
+                </button>
                 </div>` : ""}
               </div>
               ${task.children.map((child, subindex) => cardTools.LitHtml`
-              <div class="info flex child">
+              <div class="info flex child" id=${"child_div_" + index + "_" + subindex"}>
                 <div>
                   <div class="child-title">
                     ${this.task_prefix}${child.task_title}
@@ -123,6 +129,14 @@ customElements.whenDefined("card-tools").then(() => {
             </div>` : "" }
           </ha-card>`}
       `;
+    }
+
+    darken(index, value) {
+      if (value) {
+        document.getElementById(index).classList.add("darken");
+      } else {
+        document.getElementById(index).classList.remove("darken");
+      }
     }
 
     async _complete(task_name, index){
@@ -219,13 +233,16 @@ customElements.whenDefined("card-tools").then(() => {
             .button:hover {
               cursor: pointer;
             }
-	    .button:disabled {
-	      color: var(--disabled-text-color);
-	      cursor: not-allowed;
-	    }
+            .button:disabled {
+              color: var(--disabled-text-color);
+              cursor: not-allowed;
+            }
             .child {
               padding: 3px 0 3px 35px;
             }
+	    .darken {
+	      background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
+	    }
           </style>
         `;
       }
