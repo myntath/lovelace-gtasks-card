@@ -70,7 +70,7 @@ customElements.whenDefined("card-tools").then(() => {
             <div>
               ${this.tasks.length > 0 ? cardTools.LitHtml`
               ${this.tasks.map((task, index) => cardTools.LitHtml`
-              <div class="info flex task" id=${"task_div_" + index}>
+              <div class="info flex task" id=${"main_div_" + index}>
                 <div>
                   <div class="task-title">
                     ${this.task_prefix}${task.task_title}
@@ -86,14 +86,14 @@ customElements.whenDefined("card-tools").then(() => {
                   <button class="button"
                           id=${"task_" + index}
                           @click=${ev => this._complete(task.task_title, index)}
-                          @mouseover=${ev => this.darkenBg('task_div_' + index, true)}
-                          @mouseout=${ev => this.darkenBg('task_div_' + index, false)}>
+                          @mouseover=${ev => this.darkenBg('main_div_' + index, true)}
+                          @mouseout=${ev => this.darkenBg('main_div_' + index, false)}>
                    ✓
                 </button>
                 </div>` : ""}
               </div>
               ${task.children.map((child, subindex) => cardTools.LitHtml`
-              <div class="info flex child" id=${"child_div_" + index + "_" + subindex}>
+              <div class="info flex child" id=${"main_div_" + index + "_" + subindex}>
                 <div>
                   <div class="child-title">
                     ${this.task_prefix}${child.task_title}
@@ -108,8 +108,8 @@ customElements.whenDefined("card-tools").then(() => {
                 <div class="checkbox">
                   <button class="button"
                           id=${"task_" + index + "_" + subindex}
-                          @mouseover=${ev => this.darkenBg('child_div_' + index + "_" + subindex, true)}
-                          @mouseout=${ev => this.darkenBg('child_div_' + index + "_" + subindex, false)}>
+                          @mouseover=${ev => this.darkenBg('main_div_' + index + "_" + subindex, true)}
+                          @mouseout=${ev => this.darkenBg('main_div_' + index + "_" + subindex, false)}>
                           @click=${ev => this._complete(child.task_title, index + "_" + subindex)}>
                     ✓
                   </button>
@@ -153,6 +153,7 @@ customElements.whenDefined("card-tools").then(() => {
 
     async _complete(task_name, index){
       this.shadowRoot.querySelector("#task_" + index).setAttribute("disabled", "true");
+      this.shadowRoot.querySelector("#main_div_" + index).classList.remove("darken");
       await this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
         tasks_list: this.list_name
