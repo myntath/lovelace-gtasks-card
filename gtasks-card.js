@@ -54,7 +54,7 @@ customElements.whenDefined("card-tools").then(() => {
           var splitDate = dueDate.split(/[- :T]/)
           return `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`;
         }
-	      else {
+        else {
           return dueDate.substr(0, 10);
         }
       }
@@ -86,7 +86,7 @@ customElements.whenDefined("card-tools").then(() => {
                   <button class="button"
                           id=${"task_" + index}
                           @click=${ev => this._complete(task.task_title, index)}
-			  @mouseover=${ev => this.darkenBg('task_div_' + index, true)}
+                          @mouseover=${ev => this.darkenBg('task_div_' + index, true)}
                           @mouseout=${ev => this.darkenBg('task_div_' + index, false)}>
                    ✓
                 </button>
@@ -103,10 +103,16 @@ customElements.whenDefined("card-tools").then(() => {
                       ${child.due_date ? "Due: " + this.formatDueDate(child.due_date, this.calculateDueDate(child.due_date), this.date_format): ""}
                     </span>
                   </div>
-		</div>
+                </div>
                 ${this.show_check != false ? cardTools.LitHtml`
                 <div class="checkbox">
-                  <button class="button" id=${"task_" + index + "_" + subindex} @click=${ev => this._complete(child.task_title, index + "_" + subindex)}>✓</button>
+                  <button class="button"
+                          id=${"task_" + index + "_" + subindex}
+                          @mouseover=${ev => this.darkenBg('child_div_' + index + "_" + subindex, true)}
+                          @mouseout=${ev => this.darkenBg('child_div_' + index + "_" + subindex, false)}>
+                          @click=${ev => this._complete(child.task_title, index + "_" + subindex)}>
+                    ✓
+                  </button>
                 </div>
                 `: ""}
               </div>
@@ -246,9 +252,9 @@ customElements.whenDefined("card-tools").then(() => {
             .child {
               padding: 3px 0 3px 35px;
             }
-	    .darken {
-	      background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
-	    }
+            .darken {
+              background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
+            }
           </style>
         `;
       }
