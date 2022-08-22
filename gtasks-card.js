@@ -109,7 +109,7 @@ customElements.whenDefined("card-tools").then(() => {
                   <button class="button"
                           id=${"task_" + index + "_" + subindex}
                           @mouseover=${ev => this.darkenBg('main_div_' + index + "_" + subindex, true)}
-                          @mouseout=${ev => this.darkenBg('main_div_' + index + "_" + subindex, false)}>
+                          @mouseout=${ev => this.darkenBg('main_div_' + index + "_" + subindex, false)}
                           @click=${ev => this._complete(child.task_title, index + "_" + subindex)}>
                     ✓
                   </button>
