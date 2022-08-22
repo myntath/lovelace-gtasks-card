@@ -131,7 +131,7 @@ customElements.whenDefined("card-tools").then(() => {
       `;
     }
 
-    darken(index, value) {
+    darkenBg(index, value) {
       if (value) {
         document.getElementById(index).classList.add("darken");
       } else {
