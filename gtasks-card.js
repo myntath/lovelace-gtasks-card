@@ -133,9 +133,15 @@ customElements.whenDefined("card-tools").then(() => {
 
     darkenBg(index, value) {
       if (value) {
-        document.getElementById(index).classList.add("darken");
+        var el = this.shadowRoot.querySelector("#" + index):
+        if el {
+          el.classList.add("darken");
+        }
       } else {
-        document.getElementById(index).classList.remove("darken");
+        var el = this.shadowRoot.querySelector("#" + index):
+        if el {
+          el.classList.remove("darken");
+        }
       }
     }
 
