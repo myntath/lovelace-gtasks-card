@@ -93,7 +93,7 @@ customElements.whenDefined("card-tools").then(() => {
                 </div>` : ""}
               </div>
               ${task.children.map((child, subindex) => cardTools.LitHtml`
-              <div class="info flex child" id=${"child_div_" + index + "_" + subindex"}>
+              <div class="info flex child" id=${"child_div_" + index + "_" + subindex}>
                 <div>
                   <div class="child-title">
                     ${this.task_prefix}${child.task_title}
