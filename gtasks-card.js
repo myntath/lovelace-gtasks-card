@@ -152,14 +152,13 @@ customElements.whenDefined("card-tools").then(() => {
     }
 
     async _complete(task_name, index){
-      var sensor_name = "sensor.gtasks_" + this.list_name.toLowerCase().replaceAll(" ", "_");
       this.shadowRoot.querySelector("#task_" + index).setAttribute("disabled", "true");
       await this._hass.callService("gtasks", "complete_task", {
         task_title: task_name,
         tasks_list: this.list_name
       });
       await this._hass.callService("homeassistant", "update_entity", {
-        entity_id: sensor_name
+        entity_id: this.config.entity 
       });
       this.shadowRoot.querySelector("#task_" + index).removeAttribute("disabled");
     }
@@ -168,13 +167,12 @@ customElements.whenDefined("card-tools").then(() => {
       var new_task_name = this.shadowRoot.querySelector("#new_task_input").value;
       this.shadowRoot.querySelector("#new_task_input").setAttribute("disabled", "true");
       this.shadowRoot.querySelector("#new_task_button").setAttribute("disabled", "true");
-      var sensor_name = "sensor.gtasks_" + this.list_name.toLowerCase().replaceAll(" ", "_");
       await this._hass.callService("gtasks", "new_task", {
         task_title: new_task_name,
         tasks_list: this.list_name
       });
       await this._hass.callService("homeassistant", "update_entity", {
-        entity_id: sensor_name
+        entity_id: this.config.entity
       });
       this.shadowRoot.querySelector("#new_task_input").value = "";
       this.shadowRoot.querySelector("#new_task_input").removeAttribute("disabled");
