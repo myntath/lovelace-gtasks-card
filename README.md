@@ -4,7 +4,7 @@
 
 A Lovelace custom card for [GTasks custom component for HA](https://github.com/myntath/gtasks-ha) in Home Assistant.
 
-Easiest installation via [HACS](https://custom-components.github.io/hacs/).
+Easiest installation via [HACS](https://hacs.xyz/).
 
 For manual installation see [this guide](https://github.com/thomasloven/hass-config/wiki/Lovelace-Plugins).
 
