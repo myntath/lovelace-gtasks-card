@@ -66,7 +66,7 @@ customElements.whenDefined("card-tools").then(() => {
         ${this._renderStyle()}
         ${cardTools.LitHtml
           `<ha-card>
-            <h1 class="card-header">${this.header}</h1>
+            <h1 class="card-header"><ha-icon class=title_icon .icon="${this.icon}"></ha-icon>${this.header}</h1>
             <div>
               ${this.tasks.length > 0 ? cardTools.LitHtml`
               ${this.tasks.map((task, index) => cardTools.LitHtml`
@@ -213,6 +213,12 @@ customElements.whenDefined("card-tools").then(() => {
               padding-left: 12px;
               text-indent: -12px;
             }
+	    .title_icon {
+	      ${this.show_icon ? "" : "display: none;" }
+              margin-right: 5px;
+              --mdc-icon-size: ${this.icon_size};
+              color: ${this.icon_color};
+	    }
             .info {
               padding-bottom: 5px;
               font-size: 1.2em;
@@ -263,6 +269,7 @@ customElements.whenDefined("card-tools").then(() => {
 
       const entity = hass.states[this.config.entity];
       const list_title = entity.attributes.friendly_name.split("_")[1]
+      const list_icon = entity.attributes.icon;
       this.list_name = list_title
       this.header = this.config.title == null ? list_title : this.config.title;
 
@@ -273,8 +280,13 @@ customElements.whenDefined("card-tools").then(() => {
       this.task_prefix = this.config.task_prefix == null ? null : this.config.task_prefix;
       //options for date_format are "YMD" "DMY" "MDY"
       this.date_format = this.config.date_format == null ? "YMD" : this.config.date_format;
+      this.icon = this.config.icon == null ? list_icon : this.config.icon;
+      this.icon_size = this.config.icon_size == null ? "30px" : this.config.icon_size;
+      this.icon_color = this.config.icon_color == null ? "var(--primary-text-color)" : this.config.icon_color;
+      this.show_icon = this.config.show_icon == null ? false : this.config.show_icon;
 
       if (entity.state == "unknown")
+
         throw new Error("The Gtasks sensor is unknown.");
 
       var tasks = entity.attributes.tasks;
