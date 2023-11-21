@@ -127,7 +127,7 @@ customElements.whenDefined("card-tools").then(() => {
             ${this.show_add != false ? cardTools.LitHtml`
             <div class="info flex new-task">
               <div>
-                <paper-input label="New Task" id="new_task_input" type="text" no-label-float>New Task</paper-input>
+                <ha-textfield label="New Task" id="new_task_input" type="text" no-label-float>New Task</ha-textfield>
               </div>
               <div>
                 <button class="button" id="new_task_button" @click=${ev => this._new_task()}>+</button>
